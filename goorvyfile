@@ -1,0 +1,31 @@
+node {
+    stage('Git checkout') {
+        git branch: 'main', url: 'https://github.com/farsin28/devops_project1.git'
+    }
+    stage('Build Docker Image') {
+        sh "docker image build -t $JOB_NAME:v1.$BUILD_ID . "
+        sh "docker image tag $JOB_NAME:v1.$BUILD_ID farsin28/$JOB_NAME:v1.$BUILD_ID"
+        sh "docker image tag $JOB_NAME:v1.$BUILD_ID farsin28/$JOB_NAME:latest"
+    }
+    stage('Pushing image to dockerHub') {
+        withCredentials([string(credentialsId: 'DockerPasswd', variable: 'dockerPasswd')]) {
+        sh "docker login -u farsin28 -p ${dockerPasswd}"
+        sh "docker image push farsin28/$JOB_NAME:v1.$BUILD_ID"
+        sh "docker image push farsin28/$JOB_NAME:latest"
+        sh "docker image rm $JOB_NAME:v1.$BUILD_ID farsin28/$JOB_NAME:v1.$BUILD_ID farsin28/$JOB_NAME:latest "
+    }
+    stage("deploy the docker in webapp server") {
+        def docker_run = "docker run -itd --name ScriptedContainer -p 9000:80 farsin28/docker-webapp"
+        def docker_rm_container = "docker rm -f ScriptedContainer "
+        def docker_rm_images = "docker rmi -f farsin28/docker-webapp "
+        sshagent(['webapp_server']) {
+        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.10.205  ${docker_rm_container} "
+        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.10.205  ${docker_rm_images} "
+        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.10.205  ${docker_run} "
+        
+
+    }
+        
+    }
+}
+}
