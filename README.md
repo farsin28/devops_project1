@@ -26,3 +26,5 @@ remove old images/containers from webapp-server
 
 
 You can access the website by accessing "<webapp-server's public IP>:9000" on your browser
+
+ref: https://www.youtube.com/watch?v=ct_ZkMG7S8g&t=677s
