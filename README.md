@@ -22,3 +22,7 @@ c) push docker image to dockerHub
 
 d) Run container on webapp_server by pulling the same image from dockerhub
 remove old images/containers from webapp-server
+
+
+
+You can access the website by accessing "<webapp-server's public IP>:9000" on your browser
