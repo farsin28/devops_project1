@@ -1,4 +1,4 @@
-FROM centos:latest
+FROM centos:7
 MAINTAINER farsin28@gmail.com
 
 RUN yum clean all \
