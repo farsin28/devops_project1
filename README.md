@@ -5,7 +5,7 @@ Step 1: Provision 2 Ec2 server jenkins_server and webapp_server
 step 2: Install Docker on both server (use docker.sh script to install it)
 step 3: install jenkins on jenkins_server (use jenkins.sh script to install it)
 steps 4: open Jenkins_server and install "ssh agent" plugin
-step 5: add new jon in Jenkins "docker-webapp" (pipeline based)
+step 5: add new job in Jenkins "docker-webapp" (pipeline based)
 add groovy script to jenkins
 
 note: using jenskins withcredential (secret text), we keep the docker password as secret
